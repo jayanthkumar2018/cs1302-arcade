@@ -1,19 +1,13 @@
-# Reflection
-
-Add to this file to satisfy the "Reflection Updates" non-functional requirement
-for this project. Please keep this document organized using Markdown. If you
-click on this file in your team's GitHub repository website, then you will see
-that the Markdown is transformed into nice looking HTML. 
-
-Here is a sample entry (delete this line; also: feel free to copy/paste/modify):
-
-## SUN 2017-11-12 @ 11:55 PM EST
+## TUE 2018-11-27 @ 4:00 PM EST
 
 1. **DONE:** Downloaded the skeleton code.
+             Chose games (Checkers and Space Invaders).
+             Started planning code outline.
+             Finished reading project description.
 
-2. **TODO:** Finish reading the project description.
+2. **TODO:** Begin coding
 
-3. **PROB:** Had a hard time scheduling physicial meetings with each other at
-   first, but now that we've settled on a regular day/time things are looking
-   great! 
+3. **PROB:** Finals studying schedules made it hard to meet, but now we
+             have set up an efficient meeting schedule and are working
+             on the project efficiently using GitHub as a VCS.
 
