@@ -18,11 +18,7 @@ public class CheckerPiece
 
     public boolean canMove()
     {
-        if(board.get(row, col) == null)
-        {
-            return false;
-        }
-        else if(!king)
+        if(!king)
         {
             if(color.equals("red"))
             {
@@ -53,8 +49,7 @@ public class CheckerPiece
                 return true;
             }
         }
-        else if(board.get(row + 1, col - 1) == null
-                || board.get(row + 1, col + 1) == null)
+        else if(board.get(row + 1, col - 1) == null || board.get(row + 1, col + 1) == null)
         {
             return true;
         }
@@ -82,8 +77,7 @@ public class CheckerPiece
                 return true;
             }
         }
-        else if(board.get(row - 1, col - 1) == null
-                || board.get(row - 1, col + 1) == null)
+        else if(board.get(row - 1, col - 1) == null || board.get(row - 1, col + 1) == null)
         {
             return true;
         }
@@ -99,8 +93,7 @@ public class CheckerPiece
     {
         if(col == 0 || col == 1)
         {
-            if(board.get(row + 2, col + 2) == null
-                && (isNotNull(row + 1, col + 1) &&
+            if(board.get(row + 2, col + 2) == null && (isNotNull(row + 1, col + 1) &&
                 board.get(row + 1, col + 1).color.equals("black")))
             {
                 return true;
@@ -108,17 +101,15 @@ public class CheckerPiece
         }
         else if(col == 7 || col == 6)
         {
-            if(board.get(row + 2, col - 2) == null
-                && (isNotNull(row + 1, col - 1)
-                && board.get(row + 1, col - 1).color.equals("black")))
+            if(board.get(row + 2, col - 2) == null && (isNotNull(row + 1, col - 1) &&
+                board.get(row + 1, col - 1).color.equals("black")))
             {
                 return true;
             }
         }
-        else if((board.get(row + 2, col + 2) == null ||
-        board.get(row + 2, col - 2) == null) && ((isNotNull(row + 1, col + 1) &&
-        board.get(row + 1, col + 1).color.equals("black")) || (isNotNull(row + 1, col - 1)
-        && board.get(row + 1, col - 1).color.equals("black"))))
+        else if((board.get(row + 2, col + 2) == null || board.get(row + 2, col - 2) == null) &&
+        ((isNotNull(row + 1, col + 1) && board.get(row + 1, col + 1).color.equals("black"))
+        || (isNotNull(row + 1, col - 1) && board.get(row + 1, col - 1).color.equals("black"))))
         {
             return true;
         }
@@ -134,22 +125,21 @@ public class CheckerPiece
     {
         if(col == 0 || col == 1)
         {
-            if(board.get(row - 2, col + 2) == null &&
-            (isNotNull(row - 1, col + 1) && board.get(row - 1, col + 1).color.equals("red")))
+            if(board.get(row - 2, col + 2) == null && (isNotNull(row - 1, col + 1) &&
+                board.get(row - 1, col + 1).color.equals("red")))
             {
                 return true;
             }
         }
         else if(col == 7 || col == 6)
         {
-            if(board.get(row - 2, col - 2) == null &&
-            (isNotNull(row - 1, col - 1) && board.get(row - 1, col - 1).color.equals("red")))
+            if(board.get(row - 2, col - 2) == null && (isNotNull(row - 1, col - 1) &&
+                board.get(row - 1, col - 1).color.equals("red")))
             {
                 return true;
             }
         }
-        else if((board.get(row - 2, col + 2) == null ||
-        board.get(row - 2, col - 2) == null)
+        else if((board.get(row - 2, col + 2) == null || board.get(row - 2, col - 2) == null)
         && ((isNotNull(row - 1, col + 1) && board.get(row - 1, col + 1).color.equals("red"))
         || (isNotNull(row - 1, col - 1) && board.get(row - 1, col - 1).color.equals("red"))))
         {
