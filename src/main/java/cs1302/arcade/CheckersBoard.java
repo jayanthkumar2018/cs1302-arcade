@@ -34,14 +34,10 @@ public class CheckersBoard
         }
     }
 
-//    CheckerPiece get(int r, int c)
-//    {
-//        if(boardVar[r][c] != null)
-//        {
-//            return boardVar[r][c];
-//        }
-//        return null;
-//    }
+    CheckerPiece get(int r, int c)
+    {
+        return boardVar[r][c];
+    }
 
     public String toString()
     {
@@ -69,7 +65,7 @@ public class CheckersBoard
     {
         CheckersBoard board = new CheckersBoard();
         System.out.println(board);
-        System.out.println(board.boardVar[2][1].canMove());
+        System.out.println(board.boardVar[0][2].canMove());
     }
 
 } //CheckersboardVar
