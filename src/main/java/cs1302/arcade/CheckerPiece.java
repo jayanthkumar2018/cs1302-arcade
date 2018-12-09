@@ -58,7 +58,7 @@ public class CheckerPiece
 
     private boolean kingRedCanMove()
     {
-
+        return false;
     }
 
     private boolean blackCanMove()
@@ -86,7 +86,7 @@ public class CheckerPiece
 
     private boolean kingBlackCanMove()
     {
-
+        return false;
     }
 
     private boolean redCanJump()
@@ -102,23 +102,55 @@ public class CheckerPiece
         else if(col == 7 || col == 6)
         {
             if(board.get(row + 2, col - 2) == null
-                    && board.get(row + 1, col))
+                    && board.get(row + 1, col - 1).color.equals("black"))
+            {
+                return true;
+            }
         }
+        else if((board.get(row + 2, col + 2) == null || board.get(row + 2, col - 2) == null)
+                && (board.get(row + 1, col + 1).color.equals("black")
+                || board.get(row + 1, col - 1).color.equals("black")))
+        {
+            return true;
+        }
+        return false;
     }
 
     private boolean kingRedCanJump()
     {
-
+        return false;
     }
 
     private boolean blackCanJump()
     {
-
+        if(col == 0 || col == 1)
+        {
+            if(board.get(row - 2, col + 2) == null
+                    && board.get(row - 1, col + 1).color.equals("red"))
+            {
+                return true;
+            }
+        }
+        else if(col == 7 || col == 6)
+        {
+            if(board.get(row - 2, col - 2) == null
+                    && board.get(row - 1, col - 1).color.equals("red"))
+            {
+                return true;
+            }
+        }
+        else if((board.get(row - 2, col + 2) == null || board.get(row - 2, col - 2) == null)
+                && (board.get(row - 1, col + 1).color.equals("red")
+                || board.get(row - 1, col - 1).color.equals("red")))
+        {
+            return true;
+        }
+        return false;
     }
 
     private boolean kingBlackCanJump()
     {
-
+        return false;
     }
 
     public String toString()
