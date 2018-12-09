@@ -1,12 +1,10 @@
 package cs1302.arcade;
 
-import javafx.scene.control.Button;
-
 public class CheckersBoard
 {
     private CheckerPiece[][] board;
 
-    public CheckersBoard()
+    CheckersBoard()
     {
         board = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black, 3 = red king, 4 = black king
         initArray();
@@ -36,7 +34,7 @@ public class CheckersBoard
         }
     }
 
-    public CheckerPiece get(int r, int c)
+    CheckerPiece get(int r, int c)
     {
         return board[r][c];
     }
