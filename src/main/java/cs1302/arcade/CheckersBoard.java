@@ -42,19 +42,18 @@ public class CheckersBoard
     public String toString()
     {
         String rtn = "";
-        for(int r = 0; r < boardVar.length; r++)
+        for(CheckerPiece[] e : boardVar)
         {
-            for(int c = 0; c < boardVar[r].length; c++)
+            for (CheckerPiece piece : e)
             {
-                if(boardVar[r][c] == null)
+                if(piece == null)
                 {
                     rtn += "0";
                 }
                 else
                 {
-                    rtn += boardVar[r][c];
+                    rtn += piece;
                 }
-
             }
             rtn += "\n";
         }
@@ -65,7 +64,6 @@ public class CheckersBoard
     {
         CheckersBoard board = new CheckersBoard();
         System.out.println(board);
-        System.out.println(board.boardVar[0][2].canMove());
+        System.out.println(board.boardVar[2][2].canMove());
     }
-
-} //CheckersboardVar
+}
