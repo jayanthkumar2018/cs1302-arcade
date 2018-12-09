@@ -4,7 +4,7 @@ public class CheckersBoard
 {
     CheckerPiece[][] boardVar;
 
-    CheckersBoard()
+    private CheckersBoard()
     {
         boardVar = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black, 3 = red king, 4 = black king
         initArray();
