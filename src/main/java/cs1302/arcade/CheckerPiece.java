@@ -1,6 +1,6 @@
 package cs1302.arcade;
 
-public class CheckerPiece
+class CheckerPiece
 {
     private CheckersBoard board;
     private String color;
