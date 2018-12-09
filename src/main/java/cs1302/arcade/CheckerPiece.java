@@ -7,7 +7,7 @@ public class CheckerPiece
     private int row, col;
     private boolean king;
 
-    public CheckerPiece(CheckersBoard board, String color, int row, int col)
+    CheckerPiece(CheckersBoard board, String color, int row, int col)
     {
         this.board = board;
         this.color = color;
@@ -16,7 +16,7 @@ public class CheckerPiece
         king = false;
     }
 
-    public boolean canMove()
+    boolean canMove()
     {
         if(board.get(row, col) == null)
         {
@@ -32,9 +32,9 @@ public class CheckerPiece
         }
         if(color.equals("red"))
         {
-            return kingRedCanJump() || kingRedCanMove();
+            return kingRedCanJump() || kingCanMove();
         }
-        return kingBlackCanJump() || kingBlackCanMove();
+        return kingBlackCanJump() || kingCanMove();
     }
 
     private boolean redCanMove()
@@ -61,9 +61,9 @@ public class CheckerPiece
         return false;
     }
 
-    private boolean kingRedCanMove()
+    private boolean kingCanMove()
     {
-        return false;
+        return redCanMove() || blackCanMove();
     }
 
     private boolean blackCanMove()
@@ -87,11 +87,6 @@ public class CheckerPiece
         {
             return true;
         }
-        return false;
-    }
-
-    private boolean kingBlackCanMove()
-    {
         return false;
     }
 
