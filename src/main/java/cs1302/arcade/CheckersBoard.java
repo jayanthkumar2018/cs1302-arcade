@@ -2,11 +2,11 @@ package cs1302.arcade;
 
 public class CheckersBoard
 {
-    private CheckerPiece[][] board;
+    CheckerPiece[][] boardVar;
 
     CheckersBoard()
     {
-        board = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black, 3 = red king, 4 = black king
+        boardVar = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black, 3 = red king, 4 = black king
         initArray();
     }
 
@@ -18,7 +18,7 @@ public class CheckersBoard
             {
                 if(r % 2 == c % 2)
                 {
-                    board[r][c] = new CheckerPiece(this, "red", r, c);
+                    boardVar[r][c] = new CheckerPiece(this, "red", r, c);
                 }
             }
         }
@@ -28,31 +28,35 @@ public class CheckersBoard
             {
                 if(r % 2 == c % 2)
                 {
-                    board[r][c] = new CheckerPiece(this, "black", r, c);
+                    boardVar[r][c] = new CheckerPiece(this, "black", r, c);
                 }
             }
         }
     }
 
-    CheckerPiece get(int r, int c)
-    {
-        return board[r][c];
-    }
+//    CheckerPiece get(int r, int c)
+//    {
+//        if(boardVar[r][c] != null)
+//        {
+//            return boardVar[r][c];
+//        }
+//        return null;
+//    }
 
     public String toString()
     {
         String rtn = "";
-        for(int r = 0; r < board.length; r++)
+        for(int r = 0; r < boardVar.length; r++)
         {
-            for(int c = 0; c < board[r].length; c++)
+            for(int c = 0; c < boardVar[r].length; c++)
             {
-                if(board[r][c] == null)
+                if(boardVar[r][c] == null)
                 {
                     rtn += "0";
                 }
                 else
                 {
-                    rtn += board[r][c];
+                    rtn += boardVar[r][c];
                 }
 
             }
@@ -65,6 +69,7 @@ public class CheckersBoard
     {
         CheckersBoard board = new CheckersBoard();
         System.out.println(board);
+        System.out.println(board.boardVar[2][1].canMove());
     }
 
-} //CheckersBoard
+} //CheckersboardVar
