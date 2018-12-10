@@ -7,27 +7,24 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class ArcadeApp extends Application {
+public class ArcadeApp extends Application
+{
 
     Random rng = new Random();
+	GridPane gridpane = new GridPane();
 
     @Override
     public void start(Stage stage)
 	{
-		/* You are allowed to rewrite this start method, add other methods,
-		 * files, classes, etc., as needed. This currently contains some
-		 * simple sample code for mouse and keyboard interactions with a node
-		 * (rectangle) in a group.
-		 */
-
 		Group group = new Group();           // main container
-		Rectangle r = new Rectangle(20, 20); // some rectangle
+		Rectangle r = new Rectangle(20, 20);
 		r.setX(50);                          // 50px in the x direction (right)
 		r.setY(50);                          // 50ps in the y direction (down)
-		group.getChildren().add(r);          // add to main container
+		group.getChildren().add(r);
 
 		// when the user clicks on the rectangle, send to random position
 		r.setOnMouseClicked(event -> {
@@ -39,9 +36,10 @@ public class ArcadeApp extends Application {
 		// when the user presses left and right, move the rectangle
 		group.setOnKeyPressed(event -> {
 			System.out.println(event);
-			if (event.getCode() == KeyCode.LEFT)  r.setX(r.getX() - 10.0);
-			if (event.getCode() == KeyCode.RIGHT) r.setX(r.getX() + 10.0);
-			// TODO bounds checking
+			if(event.getCode() == KeyCode.LEFT)
+				r.setX(r.getX() - 10.0);
+			if (event.getCode() == KeyCode.RIGHT)
+				r.setX(r.getX() + 10.0);
 		});
 
 		Scene scene = new Scene(group, 640, 480);
