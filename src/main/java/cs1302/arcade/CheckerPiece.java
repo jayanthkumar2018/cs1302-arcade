@@ -18,7 +18,11 @@ class CheckerPiece
 
     boolean canMove()
     {
-        if(!king)
+        if(board.get(row, col) == null)
+        {
+            return false;
+        }
+        else if(!king)
         {
             if(color.equals("red"))
             {
@@ -28,124 +32,137 @@ class CheckerPiece
         }
         if(color.equals("red"))
         {
-            return kingRedCanJump() || kingCanMove();
+            return kingRedCanJump() || redCanJump()|| kingCanMove();
         }
-        return kingBlackCanJump() || kingCanMove();
+        return kingBlackCanJump() || blackCanJump() || kingCanMove();
     }
 
     private boolean redCanMove()
     {
         if(col == 0)
         {
-            if(board.get(row + 1, col + 1) == null)
-            {
-                return true;
-            }
+            return board.get(row + 1, col + 1) == null;
         }
         else if(col == 7)
         {
-            if(board.get(row + 1, col - 1) == null)
-            {
-                return true;
-            }
+            return board.get(row + 1, col - 1) == null;
         }
-        else if(board.get(row + 1, col - 1) == null || board.get(row + 1, col + 1) == null)
+        else
         {
-            return true;
+            return board.get(row + 1, col - 1) == null
+                    || board.get(row + 1, col + 1) == null;
         }
-        return false;
     }
 
     private boolean kingCanMove()
     {
-        return redCanMove() || blackCanMove();
+        return (redCanMove() && row != 7) || (blackCanMove() && row != 0);
     }
 
     private boolean blackCanMove()
     {
         if(col == 0)
         {
-            if(board.get(row - 1, col + 1) == null)
-            {
-                return true;
-            }
+            return board.get(row - 1, col + 1) == null;
         }
         else if(col == 7)
         {
-            if(board.get(row - 1, col - 1) == null)
-            {
-                return true;
-            }
+            return board.get(row - 1, col - 1) == null;
         }
-        else if(board.get(row - 1, col - 1) == null || board.get(row - 1, col + 1) == null)
-        {
-            return true;
+        else {
+            return board.get(row - 1, col - 1) == null
+                    || board.get(row - 1, col + 1) == null;
         }
-        return false;
     }
 
     private boolean redCanJump()
     {
+        if (row >= 6) {return false;}
         if(col == 0 || col == 1)
         {
-            if(board.get(row + 2, col + 2) == null && (isNotNull(row + 1, col + 1) &&
-                board.get(row + 1, col + 1).color.equals("black")))
-            {
-                return true;
-            }
+            return board.get(row + 2, col + 2) == null
+                    && (isNotNull(row + 1, col + 1) &&
+                    board.get(row + 1, col + 1).color.equals("black"));
         }
         else if(col == 7 || col == 6)
         {
-            if(board.get(row + 2, col - 2) == null && (isNotNull(row + 1, col - 1) &&
-                board.get(row + 1, col - 1).color.equals("black")))
-            {
-                return true;
-            }
+            return board.get(row + 2, col - 2) == null
+                    && (isNotNull(row + 1, col - 1)
+                    && board.get(row + 1, col - 1).color.equals("black"));
         }
-        else if((board.get(row + 2, col + 2) == null || board.get(row + 2, col - 2) == null) &&
-        ((isNotNull(row + 1, col + 1) && board.get(row + 1, col + 1).color.equals("black"))
-        || (isNotNull(row + 1, col - 1) && board.get(row + 1, col - 1).color.equals("black"))))
+        else
         {
-            return true;
+            return (board.boardVar[row + 2][col + 2] == null && (isNotNull(row + 1, col + 1)) &&
+                    board.boardVar[row + 1][col + 1].color.equals("black")) ||
+                    (board.boardVar[row + 2][col - 2] == null && (isNotNull(row + 1, col - 1)
+                            && board.boardVar[row + 1][col - 1].color.equals("black")));
         }
-        return false;
     }
 
     private boolean kingRedCanJump()
     {
-        return false;
+        if (row <= 1) {return false;}
+        if(col == 0 || col == 1)
+        {
+            return board.get(row - 2, col + 2) == null &&
+                    (isNotNull(row - 1, col + 1) && board.get(row - 1, col + 1).color.equals("black"));
+        }
+        else if(col == 7 || col == 6)
+        {
+            return board.get(row - 2, col - 2) == null &&
+                    (isNotNull(row - 1, col - 1) && board.get(row - 1, col - 1).color.equals("black"));
+        }
+        else
+        {
+            return (board.boardVar[row + 2][col + 2] == null && (isNotNull(row + 1, col + 1)) &&
+                    board.boardVar[row + 1][col + 1].color.equals("black")) ||
+                    (board.boardVar[row + 2][col - 2] == null && (isNotNull(row + 1, col - 1)
+                            && board.boardVar[row + 1][col - 1].color.equals("black")));
+        }
     }
 
     private boolean blackCanJump()
     {
+        if (row <= 1) {return false;}
         if(col == 0 || col == 1)
         {
-            if(board.get(row - 2, col + 2) == null && (isNotNull(row - 1, col + 1) &&
-                board.get(row - 1, col + 1).color.equals("red")))
-            {
-                return true;
-            }
+            return board.get(row - 2, col + 2) == null &&
+                    (isNotNull(row - 1, col + 1) && board.get(row - 1, col + 1).color.equals("red"));
         }
         else if(col == 7 || col == 6)
         {
-            if(board.get(row - 2, col - 2) == null && (isNotNull(row - 1, col - 1) &&
-                board.get(row - 1, col - 1).color.equals("red")))
-            {
-                return true;
-            }
+            return board.get(row - 2, col - 2) == null &&
+                    (isNotNull(row - 1, col - 1) && board.get(row - 1, col - 1).color.equals("red"));
         }
-        else if((board.get(row - 2, col + 2) == null || board.get(row - 2, col - 2) == null)
-        && ((isNotNull(row - 1, col + 1) && board.get(row - 1, col + 1).color.equals("red"))
-        || (isNotNull(row - 1, col - 1) && board.get(row - 1, col - 1).color.equals("red"))))
-        {
-            return true;
+        else {
+            return (board.boardVar[row + 2][col + 2] == null && (isNotNull(row + 1, col + 1)) &&
+                    board.boardVar[row + 1][col + 1].color.equals("red")) ||
+                    (board.boardVar[row + 2][col - 2] == null && (isNotNull(row + 1, col - 1)
+                            && board.boardVar[row + 1][col - 1].color.equals("red")));
         }
-        return false;
     }
 
     private boolean kingBlackCanJump()
     {
-        return false;
+        if (row >= 6) {return false;}
+        if(col == 0 || col == 1)
+        {
+            return board.get(row + 2, col + 2) == null
+                    && (isNotNull(row + 1, col + 1) &&
+                    board.get(row + 1, col + 1).color.equals("red"));
+        }
+        else if(col == 7 || col == 6)
+        {
+            return board.get(row + 2, col - 2) == null
+                    && (isNotNull(row + 1, col - 1)
+                    && board.get(row + 1, col - 1).color.equals("red"));
+        }
+        else {
+            return (board.boardVar[row + 2][col + 2] == null && (isNotNull(row + 1, col + 1)) &&
+                    board.boardVar[row + 1][col + 1].color.equals("red")) ||
+                    (board.boardVar[row + 2][col - 2] == null && (isNotNull(row + 1, col - 1)
+                            && board.boardVar[row + 1][col - 1].color.equals("red")));
+        }
     }
 
     private boolean isNotNull(int row, int col)
