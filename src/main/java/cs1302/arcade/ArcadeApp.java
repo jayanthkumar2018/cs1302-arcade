@@ -1,6 +1,5 @@
 package cs1302.arcade;
 
-import java.util.Random;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,26 +9,33 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 
 public class ArcadeApp extends Application {
-
-    Random rng = new Random();
 
     @Override
     public void start(Stage stage)
 	{
 
-		Group group = new Group();           // main container
-		Rectangle r = new Rectangle(20, 20); // some rectangle
-
-		HBox gameList = new HBox();
+		VBox vBox = new VBox();           // main container
         Text pickGame = new Text("Select Game");
+        pickGame.setFont(Font.font(40));
+
+        Button spaceInvaders = new Button("Space Invaders");
+        spaceInvaders.setFont(Font.font(40));
+        //spaceInvaders.setOnAction( -> );
+        Button americanCheckers = new Button("American Checkers");
+        americanCheckers.setFont(Font.font(40));
+        //americanCheckers.setOnAction( -> );
+
+        vBox.getChildren().addAll(pickGame, spaceInvaders, americanCheckers);
 
 
-		Scene scene = new Scene(group, 640, 480);
+		Scene scene = new Scene(vBox, 640, 480);
 		stage.setTitle("cs1302-arcade!");
 		stage.setScene(scene);
 		stage.sizeToScene();
