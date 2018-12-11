@@ -21,12 +21,13 @@ public class CheckersBoard extends Application
     private CheckerPiece selectedPiece;
     private ArrayList<CheckerPiece> allBlackPieces = new ArrayList<>();
     private ArrayList<CheckerPiece> allRedPieces = new ArrayList<>();
-    private Label message;
-    private Button forfeitButton;
+    private Label message = new Label("Welcome!");
+    private Button forfeitButton = new Button("Forfeit");
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)
+    {
         Stage stage = primaryStage;
         HBox hBox = new HBox();
         VBox vBox = new VBox();
@@ -34,13 +35,11 @@ public class CheckersBoard extends Application
         GridPane checkerPattern = makePane();
         GridPane checkerDisplay = makeCheckerDisplay();
         StackPane gameBoard = new StackPane();
-        message = makeMessage();
-        forfeitButton = makeForfeitButton();
-
         gameBoard.getChildren().addAll(checkerPattern, checkerDisplay);
         vBox.getChildren().addAll(forfeitButton, message);
         hBox.getChildren().addAll(gameBoard, vBox);
         checkerDisplay.setPickOnBounds(false);
+        checkerDisplay.setMouseTransparent(true);
 
         Scene scene = new Scene(hBox, 640, 480);
         stage.setTitle("cs1302-arcade!");
@@ -54,24 +53,29 @@ public class CheckersBoard extends Application
     private GridPane makeCheckerDisplay()
     {
         GridPane checkerDisplay = new GridPane();
-        for (int row = 0; row < 8; row++)
+        for(int row = 0; row < 8; row++)
         {
-            for (int col = 0; col < 8; col++)
+            for(int col = 0; col < 8; col++)
             {
-                if (boardVar[row][col] != null)
+                if(boardVar[row][col] != null)
                 {
                     Circle circle = new Circle();
                     circle.setRadius(30);
-                    if (boardVar[row][col].color.equals("red")) {
+                    if(boardVar[row][col].color.equals("red"))
+                    {
                         circle.setFill(Color.RED);
-                    } else {
+                    }
+                    else
+                    {
                         circle.setFill(Color.GREEN);
                     }
                     GridPane.setRowIndex(circle, row);
                     GridPane.setColumnIndex(circle, col);
                     checkerDisplay.getChildren().addAll(circle);
                     circle.setPickOnBounds(false);
-                } else {
+                }
+                else
+                {
                     Circle circle = new Circle();
                     circle.setRadius(30);
                     circle.setFill(Color.TRANSPARENT);
@@ -90,52 +94,46 @@ public class CheckersBoard extends Application
         return new Pane();
     }
 
-    private Button makeForfeitButton()
-    {
-        Button forfeitButton = new Button("Forfeit");
-        return forfeitButton;
-    }
-
-    private Label makeMessage()
-    {
-        Label message = new Label("Welcome!");
-        return message;
-    }
-
     private GridPane makePane()
     {
         GridPane pane = new GridPane();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
+        for(int row = 0; row < 8; row++)
+        {
+            for(int col = 0; col < 8; col++)
+            {
                 Rectangle rec = new Rectangle();
                 rec.setWidth(60);
                 rec.setHeight(60);
-                if (row % 2 == col % 2)
+                if(row % 2 == col % 2)
                 {
                     rec.setFill(Color.WHITE);
-                } else {
+                }
+                else
+                {
                     rec.setFill(Color.BLACK);
                 }
                 GridPane.setRowIndex(rec, row);
                 GridPane.setColumnIndex(rec, col);
                 pane.getChildren().addAll(rec);
-                rec.setOnMouseClicked( e ->
-                {
+                rec.setOnMouseClicked(e -> {
                     CheckerPiece piece;
 
-                    if (boardVar[GridPane.getRowIndex(rec)][GridPane.getColumnIndex(rec)] != null)
+                    if(boardVar[GridPane.getRowIndex(rec)][GridPane.getColumnIndex(rec)] != null)
                     {
                         piece = boardVar[GridPane.getRowIndex(rec)][GridPane.getColumnIndex(rec)];
-
-                        if (currentPlayer == RED_PLAYER && piece.color.equals("red") ||
+                        if(currentPlayer == RED_PLAYER && piece.color.equals("red") ||
                                 currentPlayer == GREEN_PLAYER && piece.color.equals("black"))
                         {
                             selectedPiece = piece;
-                        } else {
-                            System.out.println("NOT YOUR TURN");                           //CHANGE THIS TO A LABEL LATER
                         }
-                    } else {
-                        if (selectedPiece != null)
+                        else
+                        {
+                            message.setText("NOT YOUR TURN");
+                        }
+                    }
+                    else
+                    {
+                        if(selectedPiece != null)
                         {
                             doMove(selectedPiece, GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
                         }
@@ -148,84 +146,102 @@ public class CheckersBoard extends Application
 
     private void doMove(CheckerPiece piece, int targetRow, int targetCol)
     {
-        if (!canMove(piece))
+        if(!canMove(piece))
         {
-            System.out.println("This piece has no legal moves");                   //CHANGE THIS TO A LABEL LATER
+            message.setText("This piece has no legal moves");
             selectedPiece = null;
             return;
         }
-        if (piece.king)
+        if(piece.king)
         {
-            if (kingJump(piece, targetRow, targetCol))
+            if(kingJump(piece, targetRow, targetCol))
             {
                 return;
             }
-        } else {
-            if (pieceJump(piece, targetRow, targetCol)) {
+        }
+        else
+        {
+            if(pieceJump(piece, targetRow, targetCol))
+            {
                 return;
             }
         }
 
-        if (piece.color.equals("red"))
+        if(piece.color.equals("red"))
         {
-            for (CheckerPiece eachChecker: allRedPieces)
+            for(CheckerPiece eachChecker: allRedPieces)
             {
-                if (eachChecker.king)
+                if(eachChecker.king)
                 {
-                    if (kingRedCanJump(eachChecker))
+                    if(kingRedCanJump(eachChecker))
                     {
-                        System.out.println("One of your other pieces can capture an enemy piece, so this move is invalid"); //turn this into a label
-                    }
-                } else {
-                    if (redCanJump(eachChecker))
-                    {
-                        System.out.println("One of your other pieces can capture an enemy piece, so this move is invalid"); //turn this into a label
+                        message.setText("One of your other pieces can capture an enemy " +
+                                "piece, so this move is invalid");
                     }
                 }
-            }
-        } else {
-            for (CheckerPiece eachChecker: allBlackPieces)
-            {
-                if (eachChecker.king)
+                else
                 {
-                    if (kingRedCanJump(eachChecker))
+                    if(redCanJump(eachChecker))
                     {
-                        System.out.println("One of your other pieces can capture an enemy piece, so this move is invalid"); //turn this into a label
-                    }
-                } else {
-                    if (redCanJump(eachChecker))
-                    {
-                        System.out.println("One of your other pieces can capture an enemy piece, so this move is invalid"); //turn this into a label
+                        message.setText("One of your other pieces can capture an enemy " +
+                                "piece, so this move is invalid");
                     }
                 }
             }
         }
-        if (piece.king)
+        else
         {
-            if (kingMove(piece, targetRow, targetCol))
+            for(CheckerPiece eachChecker: allBlackPieces)
+            {
+                if(eachChecker.king)
+                {
+                    if(kingRedCanJump(eachChecker))
+                    {
+                        message.setText("One of your other pieces can capture an enemy " +
+                                "piece, so this move is invalid");
+                    }
+                }
+                else
+                {
+                    if(redCanJump(eachChecker))
+                    {
+                        message.setText("One of your other pieces can capture an enemy " +
+                                "piece, so this move is invalid");
+                    }
+                }
+            }
+        }
+        if(piece.king)
+        {
+            if(kingMove(piece, targetRow, targetCol))
             {
                 return;
             }
-        } else {
-            if (pieceMove(piece, targetRow, targetCol)) {
+        }
+        else
+        {
+            if(pieceMove(piece, targetRow, targetCol)) {
                 return;
             }
         }
-        System.out.println("This move is invalid!");                                              //TURN THIS INTO A LABEL
+        message.setText("This move is invalid!");
         selectedPiece = null;
     }
 
-    private boolean kingJump(CheckerPiece piece, int targetRow, int targetCol) //return true if successful
+    private boolean kingJump(CheckerPiece piece, int targetRow, int targetCol)
+    //return true if successful
     {
-        if ((targetRow == piece.row+2 && targetCol == piece.col+2) ||
+        if((targetRow == piece.row+2 && targetCol == piece.col+2) ||
                 (targetRow == piece.row+2 && targetCol == piece.col-2) ||
                 (targetRow == piece.row-2 && targetCol == piece.col-2) ||
                 (targetRow == piece.row-2 && targetCol == piece.col+2))
         {
-            if (boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
-                    !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2].color.equals(piece.color))
+            if(boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
+                    !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2]
+                            .color.equals(piece.color))
             {
-                CheckerPiece temp = new CheckerPiece(piece.color, targetRow, targetCol, piece.king);
+                CheckerPiece temp = new CheckerPiece(piece.color, targetRow,
+                        targetCol, piece.king);
                 boardVar[piece.row][piece.col] = null;
                 boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] = null;
                 boardVar[targetRow][targetCol] = temp;
@@ -236,16 +252,20 @@ public class CheckersBoard extends Application
         return false;
     }
 
-    private boolean pieceJump(CheckerPiece piece, int targetRow, int targetCol) //assumes target space is in bounds and empty, otherwise does nothing
+    private boolean pieceJump(CheckerPiece piece, int targetRow, int targetCol)
+    //assumes target space is in bounds and empty, otherwise does nothing
     {
-        if (piece.color.equals("red"))
+        if(piece.color.equals("red"))
         {
-            if ((targetRow == piece.row+2 && (targetCol == piece.col+2 || targetCol == piece.col-2)))
+            if((targetRow == piece.row+2 && (targetCol == piece.col+2
+                    || targetCol == piece.col-2)))
             {
-                if (boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
-                        !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2].color.equals(piece.color))
+                if(boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
+                        !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2]
+                                .color.equals(piece.color))
                 {
-                    CheckerPiece temp = new CheckerPiece(piece.color, targetRow, targetCol, piece.king);
+                    CheckerPiece temp = new CheckerPiece(piece.color, targetRow,
+                            targetCol, piece.king);
                     boardVar[piece.row][piece.col] = null;
                     boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] = null;
                     boardVar[targetRow][targetCol] = temp;
@@ -253,13 +273,18 @@ public class CheckersBoard extends Application
                     return true;
                 }
             }
-        } else {
-            if ((targetRow == piece.row-2 && (targetCol == piece.col-2 || targetCol == piece.col+2)))
+        }
+        else
+        {
+            if((targetRow == piece.row-2 && (targetCol == piece.col-2
+                    || targetCol == piece.col+2)))
             {
-                if (boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
-                        !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2].color.equals(piece.color))
+                if(boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] != null &&
+                        !boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2]
+                                .color.equals(piece.color))
                 {
-                    CheckerPiece temp = new CheckerPiece(piece.color, targetRow, targetCol, piece.king);
+                    CheckerPiece temp = new CheckerPiece(piece.color, targetRow,
+                            targetCol, piece.king);
                     boardVar[piece.row][piece.col] = null;
                     boardVar[(piece.row + targetRow)/2][(piece.col + targetCol)/2] = null;
                     boardVar[targetRow][targetCol] = temp;
@@ -271,9 +296,10 @@ public class CheckersBoard extends Application
         return false;
     }
 
-    private boolean kingMove(CheckerPiece piece, int targetRow, int targetCol) //assumes target space is in bounds and empty, otherwise does nothing
+    private boolean kingMove(CheckerPiece piece, int targetRow, int targetCol)
+    //assumes target space is in bounds and empty, otherwise does nothing
     {
-        if ((targetRow == piece.row+1 && targetCol == piece.col+1) ||
+        if((targetRow == piece.row+1 && targetCol == piece.col+1) ||
                 (targetRow == piece.row+1 && targetCol == piece.col-1) ||
                 (targetRow == piece.row-1 && targetCol == piece.col-1) ||
                 (targetRow == piece.row-1 && targetCol == piece.col+1))
@@ -287,20 +313,24 @@ public class CheckersBoard extends Application
         return false;
     }
 
-    private boolean pieceMove(CheckerPiece piece, int targetRow, int targetCol) //assumes target space is in bounds and empty, otherwise does nothing
+    private boolean pieceMove(CheckerPiece piece, int targetRow, int targetCol)
+    //assumes target space is in bounds and empty, otherwise does nothing
     {
-        if (piece.color.equals("red"))
+        if(piece.color.equals("red"))
         {
-            if (!(targetRow == piece.row+1 && (targetCol == piece.col+1) || targetCol == piece.col-1))
+            if(!(targetRow == piece.row+1 && (targetCol == piece.col+1) || targetCol == piece.col-1))
             {
-                System.out.println("Invalid move");                        //change to label
+                message.setText("Invalid move");
                 selectedPiece = null;
                 return false;
             }
-        } else {
-            if (!(targetRow == piece.row-1 && (targetCol == piece.col-1) || targetCol == piece.col+1))
+        }
+        else
+        {
+            if(!(targetRow == piece.row-1 && (targetCol == piece.col-1)
+                    || targetCol == piece.col+1))
             {
-                System.out.println("Invalid move");                        //change to label
+                message.setText("Invalid move");
                 selectedPiece = null;
                 return false;
             }
@@ -446,7 +476,10 @@ public class CheckersBoard extends Application
 
     private boolean kingRedCanJump(CheckerPiece piece)
     {
-        if (piece.row <= 1) {return false;}
+        if(piece.row <= 1)
+        {
+            return false;
+        }
         if(piece.col == 0 || piece.col == 1)
         {
             return boardVar[piece.row - 2][piece.col + 2] == null &&
@@ -472,7 +505,10 @@ public class CheckersBoard extends Application
 
     private boolean blackCanJump(CheckerPiece piece)
     {
-        if (piece.row <= 1) {return false;}
+        if(piece.row <= 1)
+        {
+            return false;
+        }
         if(piece.col == 0 || piece.col == 1)
         {
             return boardVar[piece.row - 2][piece.col + 2] == null &&
@@ -498,7 +534,10 @@ public class CheckersBoard extends Application
 
     private boolean kingBlackCanJump(CheckerPiece piece)
     {
-        if (piece.row >= 6) {return false;}
+        if(piece.row >= 6)
+        {
+            return false;
+        }
         if(piece.col == 0 || piece.col == 1)
         {
             return boardVar[piece.row + 2][piece.col + 2] == null
@@ -524,7 +563,8 @@ public class CheckersBoard extends Application
 
     public CheckersBoard()
     {
-        boardVar = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black, 3 = red king, 4 = black king
+        boardVar = new CheckerPiece[8][8];  //0 = empty, 1 = red, 2 = black,
+                                            // 3 = red king, 4 = black king
         initArray();
     }
 
